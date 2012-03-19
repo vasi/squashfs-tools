@@ -723,13 +723,13 @@ void cache_block_put(struct file_buffer *entry)
 			+ (((char *)A) - data_cache)))
 
 
-inline void inc_progress_bar()
+static inline void inc_progress_bar()
 {
 	cur_uncompressed ++;
 }
 
 
-inline void update_progress_bar()
+static inline void update_progress_bar()
 {
 	pthread_mutex_lock(&progress_mutex);
 	pthread_cond_signal(&progress_wait);
@@ -737,7 +737,7 @@ inline void update_progress_bar()
 }
 
 
-inline void waitforthread(int i)
+static inline void waitforthread(int i)
 {
 	TRACE("Waiting for thread %d\n", i);
 	while(thread[i] != 0)
@@ -2327,7 +2327,7 @@ struct file_info *duplicate(long long file_size, long long bytes,
 }
 
 
-inline int is_fragment(struct inode_info *inode)
+static inline int is_fragment(struct inode_info *inode)
 {
 	int file_size = inode->buf.st_size;
 
@@ -3435,7 +3435,7 @@ struct inode_info *lookup_inode(struct stat *buf)
 }
 
 
-inline struct dir_ent *create_dir_entry(char *name, char *source_name,
+static inline struct dir_ent *create_dir_entry(char *name, char *source_name,
 	char *nonstandard_pathname, struct dir_info *dir)
 {
 	struct dir_ent *dir_ent = malloc(sizeof(struct dir_ent));
@@ -3451,7 +3451,7 @@ inline struct dir_ent *create_dir_entry(char *name, char *source_name,
 }
 
 
-inline void add_dir_entry(struct dir_ent *dir_ent, struct dir_info *sub_dir,
+static inline void add_dir_entry(struct dir_ent *dir_ent, struct dir_info *sub_dir,
 	struct inode_info *inode_info)
 {
 	struct dir_info *dir = dir_ent->our_dir;
@@ -3474,7 +3474,7 @@ inline void add_dir_entry(struct dir_ent *dir_ent, struct dir_info *sub_dir,
 }
 
 
-inline void add_dir_entry2(char *name, char *source_name,
+static inline void add_dir_entry2(char *name, char *source_name,
 	char *nonstandard_pathname, struct dir_info *sub_dir,
 	struct inode_info *inode_info, struct dir_info *dir)
 {
@@ -3486,7 +3486,7 @@ inline void add_dir_entry2(char *name, char *source_name,
 }
 
 
-inline void free_dir_entry(struct dir_ent *dir_ent)
+static inline void free_dir_entry(struct dir_ent *dir_ent)
 {
 	if(dir_ent->name != NULL)
 		free(dir_ent->name);
@@ -3498,7 +3498,7 @@ inline void free_dir_entry(struct dir_ent *dir_ent)
 }
 
 
-inline void add_excluded(struct dir_info *dir)
+static inline void add_excluded(struct dir_info *dir)
 {
 	dir->excluded ++;
 }
