@@ -39,6 +39,7 @@
 #include "squashfs_fs.h"
 #include "mksquashfs.h"
 #include "action.h"
+#include "oscompat.h"
 
 /*
  * code to parse actions

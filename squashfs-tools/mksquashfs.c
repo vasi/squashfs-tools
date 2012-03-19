@@ -114,6 +114,7 @@
 #include "compressor.h"
 #include "xattr.h"
 #include "action.h"
+#include "oscompat.h"
 
 int delete = FALSE;
 int fd;

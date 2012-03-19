@@ -203,7 +203,7 @@ mksquashfs: $(MKSQUASHFS_OBJS)
 	$(CC) $(LDFLAGS) $(EXTRA_LDFLAGS) $(MKSQUASHFS_OBJS) $(LIBS) -o $@
 
 mksquashfs.o: mksquashfs.c squashfs_fs.h mksquashfs.h sort.h squashfs_swap.h \
-	xattr.h pseudo.h compressor.h action.h
+	xattr.h pseudo.h compressor.h action.h oscompat.h
 
 read_fs.o: read_fs.c squashfs_fs.h read_fs.h squashfs_swap.h compressor.h \
 	xattr.h
@@ -220,7 +220,7 @@ xattr.o: xattr.c xattr.h squashfs_fs.h squashfs_swap.h mksquashfs.h
 
 read_xattrs.o: read_xattrs.c xattr.h squashfs_fs.h squashfs_swap.h read_fs.h
 
-action.o: action.h squashfs_fs.h mksquashfs.h
+action.o: action.h squashfs_fs.h mksquashfs.h oscompat.h
 
 gzip_wrapper.o: gzip_wrapper.c compressor.h squashfs_fs.h
 
@@ -236,7 +236,7 @@ unsquashfs: $(UNSQUASHFS_OBJS)
 	$(CC) $(LDFLAGS) $(EXTRA_LDFLAGS) $(UNSQUASHFS_OBJS) $(LIBS) -o $@
 
 unsquashfs.o: unsquashfs.h unsquashfs.c squashfs_fs.h squashfs_swap.h \
-	squashfs_compat.h xattr.h read_fs.h compressor.h
+	squashfs_compat.h xattr.h read_fs.h compressor.h oscompat.h
 
 unsquash-1.o: unsquashfs.h unsquash-1.c squashfs_fs.h squashfs_compat.h
 
