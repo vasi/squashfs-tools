@@ -31,7 +31,12 @@
 #include "xattr.h"
 #include "oscompat.h"
 
+#ifndef linux
+#include <sys/sysctl.h>
+#else
 #include <sys/sysinfo.h>
+#endif
+
 #include <sys/types.h>
 
 struct cache *fragment_cache, *data_cache;
