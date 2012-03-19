@@ -24,6 +24,8 @@
  *
  */
 
+#include "oscompat.h"
+
 #if __BYTE_ORDER == __BIG_ENDIAN
 #define SQUASHFS_SWAP_SHORTS(d, s, n) swap_le16_num(s, d, n)
 #define SQUASHFS_SWAP_INTS(d, s, n) swap_le32_num(s, d, n)

@@ -40,4 +40,17 @@
     #endif
 #endif
 
+#ifndef linux
+    #define __BYTE_ORDER BYTE_ORDER
+    #define __BIG_ENDIAN BIG_ENDIAN
+    #define __LITTLE_ENDIAN LITTLE_ENDIAN
+    #ifdef __APPLE__
+        #include <machine/byte_order.h>
+    #else
+        #include <machine/endian.h>
+    #endif
+#else
+    #include <endian.h>
+#endif
+
 #endif

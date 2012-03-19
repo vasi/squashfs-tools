@@ -27,6 +27,8 @@
  * macros to convert each stucture from big endian to little endian
  */
 
+#include "oscompat.h"
+
 #if __BYTE_ORDER == __BIG_ENDIAN
 #include <stddef.h>
 extern void swap_le16(void *, void *);

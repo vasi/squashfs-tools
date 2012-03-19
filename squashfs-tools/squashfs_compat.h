@@ -23,6 +23,8 @@
  * squashfs_compat.h
  */
 
+#include "oscompat.h"
+
 /*
  * definitions for structures on disk - layout 3.x
  */
