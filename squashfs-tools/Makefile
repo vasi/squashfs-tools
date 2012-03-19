@@ -27,7 +27,7 @@ GZIP_SUPPORT = 1
 # the XZ_SUPPORT line below.
 #
 #XZ_SUPPORT = 1
-
+#XZ_DIR = /usr/local
 
 ############ Building LZO support ##############
 #
@@ -136,6 +136,10 @@ endif
 
 ifeq ($(XZ_SUPPORT),1)
 CFLAGS += -DXZ_SUPPORT
+ifdef XZ_DIR
+INCLUDEDIR += -I$(XZ_DIR)/include
+LZO_LIBDIR = -L$(XZ_DIR)/lib
+endif
 MKSQUASHFS_OBJS += xz_wrapper.o
 UNSQUASHFS_OBJS += xz_wrapper.o
 LIBS += -llzma
