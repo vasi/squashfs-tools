@@ -216,7 +216,7 @@ pseudo.o: pseudo.c pseudo.h
 
 compressor.o: compressor.c compressor.h squashfs_fs.h
 
-xattr.o: xattr.c xattr.h squashfs_fs.h squashfs_swap.h mksquashfs.h
+xattr.o: xattr.c xattr.h squashfs_fs.h squashfs_swap.h mksquashfs.h oscompat.h
 
 read_xattrs.o: read_xattrs.c xattr.h squashfs_fs.h squashfs_swap.h read_fs.h
 
@@ -247,7 +247,8 @@ unsquash-3.o: unsquashfs.h unsquash-3.c squashfs_fs.h squashfs_compat.h
 unsquash-4.o: unsquashfs.h unsquash-4.c squashfs_fs.h squashfs_swap.h \
 	read_fs.h
 
-unsquashfs_xattr.o: unsquashfs_xattr.c unsquashfs.h squashfs_fs.h xattr.h
+unsquashfs_xattr.o: unsquashfs_xattr.c unsquashfs.h squashfs_fs.h xattr.h \
+	oscompat.h
 
 
 .PHONY: clean

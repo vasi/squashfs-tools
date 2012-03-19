@@ -22,6 +22,8 @@
  * xattr.h
  */
 
+#include "oscompat.h"
+
 #define XATTR_VALUE_OOL		SQUASHFS_XATTR_VALUE_OOL
 #define XATTR_PREFIX_MASK	SQUASHFS_XATTR_PREFIX_MASK
 

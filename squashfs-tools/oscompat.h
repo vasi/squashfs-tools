@@ -28,4 +28,16 @@
     #define FNM_EXTMATCH 0
 #endif
 
+#ifdef XATTR_SUPPORT
+    #include <sys/xattr.h>
+    #ifdef XATTR_NOFOLLOW // Apple's weird xattrs
+        #define llistxattr(path_, buf_, sz_) \
+            listxattr(path_, buf_, sz_, XATTR_NOFOLLOW)
+        #define lgetxattr(path_, name_, val_, sz_) \
+            getxattr(path_, name_, val_, sz_, 0, XATTR_NOFOLLOW)
+        #define lsetxattr(path_, name_, val_, sz_, flags_) \
+            setxattr(path_, name_, val_, sz_, 0, flags_ | XATTR_NOFOLLOW)
+    #endif
+#endif
+
 #endif
