@@ -31,12 +31,6 @@
 #include "xattr.h"
 #include "oscompat.h"
 
-#ifndef linux
-#include <sys/sysctl.h>
-#else
-#include <sys/sysinfo.h>
-#endif
-
 #include <sys/types.h>
 
 struct cache *fragment_cache, *data_cache;
@@ -1830,7 +1824,7 @@ void initialise_threads(int fragment_buffer_size, int data_buffer_size)
 			"\n");
 
 	if(processors == -1) {
-#ifndef linux
+#ifndef USE_SYSCONF
 		int mib[2];
 		size_t len = sizeof(processors);
 

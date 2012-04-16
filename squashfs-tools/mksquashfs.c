@@ -51,12 +51,6 @@
 #include <fnmatch.h>
 #include <sys/wait.h>
 
-#ifndef linux
-#include <sys/sysctl.h>
-#else
-#include <sys/sysinfo.h>
-#endif
-
 #ifdef SQUASHFS_TRACE
 #define TRACE(s, args...) \
 		do { \
@@ -4225,7 +4219,7 @@ void initialise_threads(int readb_mbytes, int writeb_mbytes,
 	signal(SIGUSR1, sigusr1_handler);
 
 	if(processors == -1) {
-#ifndef linux
+#ifndef USE_SYSCONF
 		int mib[2];
 		size_t len = sizeof(processors);
 

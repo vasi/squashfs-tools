@@ -53,4 +53,11 @@
     #include <endian.h>
 #endif
 
+#if defined(linux) || defined(__sun__)
+	#define USE_SYSCONF 1
+	#include <sys/sysinfo.h>
+#else
+	#include <sys/sysctl.h>
+#endif
+
 #endif
