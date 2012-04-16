@@ -49,6 +49,7 @@
 #include <math.h>
 #include <regex.h>
 #include <fnmatch.h>
+#include <sys/termios.h>
 #include <sys/wait.h>
 
 #ifdef SQUASHFS_TRACE
