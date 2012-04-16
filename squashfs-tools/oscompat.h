@@ -81,6 +81,10 @@
 	#include <sys/sysmacros.h>
 	#include <sys/netmgr.h>
 	#define xmakedev(_a,_b) makedev(ND_LOCAL_NODE,(_a),(_b))
+#elif defined(__HAIKU__)
+	#define xmakedev(_a, _b) (0) // Haiku has no dev #s
+	#define major(_x) (0)
+	#define minor(_x) (0)
 #else
 	#define xmakedev(_a,_b) makedev((_a),(_b))
 #endif
