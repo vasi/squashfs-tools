@@ -49,7 +49,6 @@
 #include <math.h>
 #include <regex.h>
 #include <fnmatch.h>
-#include <sys/termios.h>
 #include <sys/wait.h>
 
 #ifdef SQUASHFS_TRACE
@@ -3937,7 +3936,7 @@ struct dir_info *dir_scan2(struct dir_info *dir, struct pseudo *pseudo, int dept
 		buf.st_mode = pseudo_ent->dev->mode;
 		buf.st_uid = pseudo_ent->dev->uid;
 		buf.st_gid = pseudo_ent->dev->gid;
-		buf.st_rdev = makedev(pseudo_ent->dev->major,
+		buf.st_rdev = xmakedev(pseudo_ent->dev->major,
 			pseudo_ent->dev->minor);
 		buf.st_mtime = time(NULL);
 		buf.st_ino = pseudo_ino ++;

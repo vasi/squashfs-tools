@@ -74,6 +74,13 @@
 #ifdef __sun__
 	#include <sys/mkdev.h>
 #endif
+#ifdef __QNX__
+	#include <sys/sysmacros.h>
+	#include <sys/netmgr.h>
+	#define xmakedev(_a,_b) makedev(ND_LOCAL_NODE,(_a),(_b))
+#else
+	#define xmakedev(_a,_b) makedev((_a),(_b))
+#endif
 
 #ifndef __QNX__
 	#include <sys/termios.h>

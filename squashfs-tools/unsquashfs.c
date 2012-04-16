@@ -32,7 +32,6 @@
 #include "oscompat.h"
 
 #include <sys/types.h>
-#include <sys/termios.h>
 
 struct cache *fragment_cache, *data_cache;
 struct queue *to_reader, *to_deflate, *to_writer, *from_writer;
@@ -937,7 +936,7 @@ int create_inode(char *pathname, struct inode *i)
 					unlink(pathname);
 
 				if(mknod(pathname, chrdev ? S_IFCHR : S_IFBLK,
-						makedev((i->data >> 8) & 0xff,
+						xmakedev((i->data >> 8) & 0xff,
 						i->data & 0xff)) == -1) {
 					ERROR("create_inode: failed to create "
 						"%s device %s, because %s\n",
