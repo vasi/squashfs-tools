@@ -91,4 +91,16 @@
 	#include <nbutil.h> // For asprintf
 #endif
 
+#ifdef __minix
+        #include <sys/stat.h>
+        #include <unistd.h>
+        static inline int lchown(const char *path, uid_t o, gid_t g) {
+                struct stat st;
+                int err = lstat(path, &st);
+                if (!err && !S_ISLNK(st.st_mode))
+                        err = chown(path, o, g);
+                return err;
+        }
+#endif
+
 #endif
