@@ -86,4 +86,8 @@
 	#include <sys/termios.h>
 #endif
 
+#ifdef __QNX__
+	#include <nbutil.h> // For asprintf
+#endif
+
 #endif
