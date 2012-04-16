@@ -1743,7 +1743,7 @@ void *writer(void *arg)
  */
 void *deflator(void *arg)
 {
-	char tmp[block_size];
+	char *tmp = malloc(block_size);
 
 	while(1) {
 		struct cache_entry *entry = queue_get(to_deflate);
