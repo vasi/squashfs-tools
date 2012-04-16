@@ -25,23 +25,25 @@
 
 #include <fnmatch.h>
 #ifndef FNM_EXTMATCH // glibc extension
-    #define FNM_EXTMATCH 0
+	#define FNM_EXTMATCH 0
 #endif
 
 #ifdef XATTR_SUPPORT
-    #include <sys/xattr.h>
-    #ifdef XATTR_NOFOLLOW // Apple's weird xattrs
-        #define llistxattr(path_, buf_, sz_) \
-            listxattr(path_, buf_, sz_, XATTR_NOFOLLOW)
-        #define lgetxattr(path_, name_, val_, sz_) \
-            getxattr(path_, name_, val_, sz_, 0, XATTR_NOFOLLOW)
-        #define lsetxattr(path_, name_, val_, sz_, flags_) \
-            setxattr(path_, name_, val_, sz_, 0, flags_ | XATTR_NOFOLLOW)
-    #endif
+	#include <sys/xattr.h>
+	#ifdef XATTR_NOFOLLOW // Apple's weird xattrs
+		#define llistxattr(path_, buf_, sz_) \
+			listxattr(path_, buf_, sz_, XATTR_NOFOLLOW)
+		#define lgetxattr(path_, name_, val_, sz_) \
+			getxattr(path_, name_, val_, sz_, 0, XATTR_NOFOLLOW)
+		#define lsetxattr(path_, name_, val_, sz_, flags_) \
+			setxattr(path_, name_, val_, sz_, 0, flags_ | XATTR_NOFOLLOW)
+	#endif
 #endif
 
 #ifdef linux
-    #include <endian.h>
+	#include <endian.h>
+#elif defined(__HAIKU__)
+	#include <posix/endian.h>
 #elif defined(__sun__)
 	#define __BIG_ENDIAN 4321
 	#define __LITTLE_ENDIAN 1234
@@ -52,22 +54,22 @@
 		#define __BYTE_ORDER __BIG_ENDIAN
 	#endif
 #else
-    #define __BYTE_ORDER BYTE_ORDER
-    #define __BIG_ENDIAN BIG_ENDIAN
-    #define __LITTLE_ENDIAN LITTLE_ENDIAN
-    #ifdef __APPLE__
-        #include <machine/byte_order.h>
+	#define __BYTE_ORDER BYTE_ORDER
+	#define __BIG_ENDIAN BIG_ENDIAN
+	#define __LITTLE_ENDIAN LITTLE_ENDIAN
+	#ifdef __APPLE__
+		#include <machine/byte_order.h>
 	#elif defined(__QNX__)
 		#include <sys/param.h>
-    #else
-        #include <machine/endian.h>
-    #endif
+	#else
+		#include <machine/endian.h>
+	#endif
 #endif
 
 #if defined(linux) || defined(__sun__)
 	#define USE_SYSCONF 1
 	#include <sys/sysinfo.h>
-#elif !defined(__QNX__) && !defined(__minix)
+#elif !defined(__QNX__) && !defined(__minix) && !defined(__HAIKU__)
 	#define USE_SYSCTL 1
 	#include <sys/sysctl.h>
 #endif
@@ -83,7 +85,7 @@
 	#define xmakedev(_a,_b) makedev((_a),(_b))
 #endif
 
-#ifndef __QNX__
+#if !defined(__QNX__) && !defined(__HAIKU__)
 	#include <sys/termios.h>
 #endif
 
@@ -92,15 +94,15 @@
 #endif
 
 #ifdef __minix
-        #include <sys/stat.h>
-        #include <unistd.h>
-        static inline int lchown(const char *path, uid_t o, gid_t g) {
-                struct stat st;
-                int err = lstat(path, &st);
-                if (!err && !S_ISLNK(st.st_mode))
-                        err = chown(path, o, g);
-                return err;
-        }
+	#include <sys/stat.h>
+	#include <unistd.h>
+	static inline int lchown(const char *path, uid_t o, gid_t g) {
+		struct stat st;
+		int err = lstat(path, &st);
+		if (!err && !S_ISLNK(st.st_mode))
+			err = chown(path, o, g);
+		return err;
+	}
 #endif
 
 #endif
