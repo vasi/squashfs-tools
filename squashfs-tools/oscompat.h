@@ -69,4 +69,8 @@
 	#include <sys/sysctl.h>
 #endif
 
+#ifdef __sun__
+	#include <sys/mkdev.h>
+#endif
+
 #endif
