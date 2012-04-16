@@ -57,6 +57,8 @@
     #define __LITTLE_ENDIAN LITTLE_ENDIAN
     #ifdef __APPLE__
         #include <machine/byte_order.h>
+	#elif defined(__QNX__)
+		#include <sys/param.h>
     #else
         #include <machine/endian.h>
     #endif
