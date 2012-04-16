@@ -75,4 +75,8 @@
 	#include <sys/mkdev.h>
 #endif
 
+#ifndef __QNX__
+	#include <sys/termios.h>
+#endif
+
 #endif
