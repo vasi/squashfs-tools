@@ -40,7 +40,18 @@
     #endif
 #endif
 
-#ifndef linux
+#ifdef linux
+    #include <endian.h>
+#elif defined(__sun__)
+	#define __BIG_ENDIAN 4321
+	#define __LITTLE_ENDIAN 1234
+	#include <sys/isa_defs.h>
+	#ifdef _LITTLE_ENDIAN
+		#define __BYTE_ORDER __LITTLE_ENDIAN
+	#else
+		#define __BYTE_ORDER __BIG_ENDIAN
+	#endif
+#else
     #define __BYTE_ORDER BYTE_ORDER
     #define __BIG_ENDIAN BIG_ENDIAN
     #define __LITTLE_ENDIAN LITTLE_ENDIAN
@@ -49,8 +60,6 @@
     #else
         #include <machine/endian.h>
     #endif
-#else
-    #include <endian.h>
 #endif
 
 #if defined(linux) || defined(__sun__)
