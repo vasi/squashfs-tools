@@ -67,7 +67,8 @@
 #if defined(linux) || defined(__sun__)
 	#define USE_SYSCONF 1
 	#include <sys/sysinfo.h>
-#else
+#elif !defined(__QNX__) && !defined(__minix)
+	#define USE_SYSCTL 1
 	#include <sys/sysctl.h>
 #endif
 

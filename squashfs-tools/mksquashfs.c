@@ -4223,7 +4223,7 @@ void initialise_threads(int readb_mbytes, int writeb_mbytes,
 	signal(SIGUSR1, sigusr1_handler);
 
 	if(processors == -1) {
-#ifndef USE_SYSCONF
+#ifdef USE_SYSCTL
 		int mib[2];
 		size_t len = sizeof(processors);
 
@@ -4239,8 +4239,10 @@ void initialise_threads(int readb_mbytes, int writeb_mbytes,
 				"Defaulting to 1\n");
 			processors = 1;
 		}
-#else
+#elif defined(USE_SYSCONF)
 		processors = sysconf(_SC_NPROCESSORS_ONLN);
+#else
+		processors = 1;
 #endif
 	}
 

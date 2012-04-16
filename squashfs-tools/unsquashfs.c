@@ -1826,7 +1826,7 @@ void initialise_threads(int fragment_buffer_size, int data_buffer_size)
 			"\n");
 
 	if(processors == -1) {
-#ifndef USE_SYSCONF
+#ifdef USE_SYSCTL
 		int mib[2];
 		size_t len = sizeof(processors);
 
@@ -1842,8 +1842,10 @@ void initialise_threads(int fragment_buffer_size, int data_buffer_size)
 				"Defaulting to 1\n");
 			processors = 1;
 		}
-#else
+#elif defined(USE_SYSCONF)
 		processors = sysconf(_SC_NPROCESSORS_ONLN);
+#else
+		processors = 1;
 #endif
 	}
 
