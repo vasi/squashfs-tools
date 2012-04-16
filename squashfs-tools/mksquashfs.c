@@ -791,6 +791,8 @@ void restorefs()
 
 void sighandler()
 {
+	signal(SIGTERM, sighandler);
+	signal(SIGINT, sighandler);
 	if(++interrupted > 2)
 		return;
 	if(interrupted == 2)
@@ -834,6 +836,7 @@ void sigwinch_handler()
 {
 	struct winsize winsize;
 
+	signal(SIGWINCH, sigwinch_handler);
 	if(ioctl(1, TIOCGWINSZ, &winsize) == -1) {
 		if(isatty(STDOUT_FILENO))
 			printf("TIOCGWINSZ ioctl failed, defaulting to 80 "
@@ -846,6 +849,7 @@ void sigwinch_handler()
 
 void sigalrm_handler()
 {
+	signal(SIGALRM, sigalrm_handler);
 	rotate = (rotate + 1) % 4;
 }
 
