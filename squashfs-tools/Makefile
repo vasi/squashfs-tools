@@ -107,10 +107,13 @@ CFLAGS += $(EXTRA_CFLAGS) $(INCLUDEDIR) -D_FILE_OFFSET_BITS=64 \
 	-D_LARGEFILE_SOURCE -D_GNU_SOURCE -DCOMP_DEFAULT=\"$(COMP_DEFAULT)\" \
 	-Wall
 
-OS := $(shell uname -s)
-ifeq ($(OS),QNX)
+PLATDEF := $(shell echo | $(CC) $(CPPFLAGS) $(CFLAGS) -E - -dM)
+ifneq ($(findstring __QNX__,$(PLATDEF)),)
 	LIBS += -lm -lnbutil -lsocket
-else ifneq ($(OS),Haiku)
+else ifneq ($(findstring __ANDROID__,$(PLATDEF)),)
+	LIBS += -lm
+else ifeq ($(findstring __HAIKU__,$(PLATDEF)),)
+	# Not Haiku
 	LIBS += -lm -lpthread
 endif
 
