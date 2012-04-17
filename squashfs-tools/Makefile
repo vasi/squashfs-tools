@@ -107,11 +107,11 @@ CFLAGS += $(EXTRA_CFLAGS) $(INCLUDEDIR) -D_FILE_OFFSET_BITS=64 \
 	-D_LARGEFILE_SOURCE -D_GNU_SOURCE -DCOMP_DEFAULT=\"$(COMP_DEFAULT)\" \
 	-Wall
 
-LIBS = -lm
-ifeq ($(shell uname -s),QNX)
-	LIBS += -lnbutil -lsocket
-else
-	LIBS += -lpthread
+OS := $(shell uname -s)
+ifeq ($(OS),QNX)
+	LIBS += -lm -lnbutil -lsocket
+else ifneq ($(OS),Haiku)
+	LIBS += -lm -lpthread
 endif
 
 ifeq ($(GZIP_SUPPORT),1)
