@@ -74,11 +74,12 @@ extern char *pathname(struct dir_ent *);
 extern char *subpathname(struct dir_ent *);
 
 static char *xstrndup(const char *s, size_t n) {
+	char *ret;
 	const char *c = s;
 	while (c < s + n && *c)
 		++c;
 	n = c - s;
-	char *ret = malloc(n + 1);
+	ret = malloc(n + 1);
 	if (ret) {
 		memcpy(ret, s, n);
 		ret[n] = '\0';
