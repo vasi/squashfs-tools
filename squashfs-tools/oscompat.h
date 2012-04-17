@@ -95,7 +95,9 @@
 	#define xmakedev(_a,_b) makedev((_a),(_b))
 #endif
 
-#if !defined(__QNX__) && !defined(__HAIKU__)
+#ifdef __ANDROID__
+	#include <asm/termios.h>
+#elif !defined(__QNX__) && !defined(__HAIKU__)
 	#include <sys/termios.h>
 #endif
 
