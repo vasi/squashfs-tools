@@ -41,7 +41,7 @@
 	#endif
 #endif
 
-#if defined(linux) || defined(__CYGWIN__)
+#if defined(linux) || defined(__CYGWIN__) || defined(__gnu_hurd__)
 	#include <endian.h>
 #elif defined(__HAIKU__)
 	#include <posix/endian.h>
@@ -71,6 +71,9 @@
 #if defined(linux) || defined(__sun__) || defined(__CYGWIN__)
 	#define USE_SYSCONF 1
 	#include <sys/sysinfo.h>
+#elif defined(__gnu_hurd__)
+	#define USE_SYSCONF 1
+	#include <unistd.h>
 #elif !defined(__QNX__) && !defined(__minix) && !defined(__HAIKU__)
 	#define USE_SYSCTL 1
 	#include <sys/param.h>
