@@ -62,6 +62,7 @@
 	#elif defined(__QNX__)
 		#include <sys/param.h>
 	#else
+		#include <sys/types.h>
 		#include <machine/endian.h>
 	#endif
 #endif
@@ -71,6 +72,7 @@
 	#include <sys/sysinfo.h>
 #elif !defined(__QNX__) && !defined(__minix) && !defined(__HAIKU__)
 	#define USE_SYSCTL 1
+	#include <sys/param.h>
 	#include <sys/sysctl.h>
 #endif
 
