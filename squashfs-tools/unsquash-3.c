@@ -98,9 +98,10 @@ int read_fragment_table_3()
 
 void read_fragment_3(unsigned int fragment, long long *start_block, int *size)
 {
+	squashfs_fragment_entry_3 *fragment_entry;
 	TRACE("read_fragment: reading fragment %d\n", fragment);
 
-	squashfs_fragment_entry_3 *fragment_entry = &fragment_table[fragment];
+	fragment_entry = &fragment_table[fragment];
 	*start_block = fragment_entry->start_block;
 	*size = fragment_entry->size;
 }
