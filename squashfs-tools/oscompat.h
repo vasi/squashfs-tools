@@ -119,4 +119,9 @@
 	}
 #endif
 
+#ifdef __ANDROID__
+	#define pthread_setcancelstate(...)
+	#define pthread_setcanceltype(...)
+#endif
+
 #endif
