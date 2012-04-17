@@ -29,6 +29,7 @@
 #endif
 
 #ifdef XATTR_SUPPORT
+	#include <sys/types.h>
 	#include <sys/xattr.h>
 	#ifdef XATTR_NOFOLLOW // Apple's weird xattrs
 		#define llistxattr(path_, buf_, sz_) \
@@ -40,7 +41,7 @@
 	#endif
 #endif
 
-#ifdef linux
+#if defined(linux) || defined(__CYGWIN__)
 	#include <endian.h>
 #elif defined(__HAIKU__)
 	#include <posix/endian.h>
@@ -67,7 +68,7 @@
 	#endif
 #endif
 
-#if defined(linux) || defined(__sun__)
+#if defined(linux) || defined(__sun__) || defined(__CYGWIN__)
 	#define USE_SYSCONF 1
 	#include <sys/sysinfo.h>
 #elif !defined(__QNX__) && !defined(__minix) && !defined(__HAIKU__)
