@@ -82,6 +82,8 @@
 
 #ifdef __sun__
 	#include <sys/mkdev.h>
+#elif defined(__ANDROID__)
+	#include <sys/sysmacros.h>
 #endif
 #ifdef __QNX__
 	#include <sys/sysmacros.h>
