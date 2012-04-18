@@ -110,11 +110,14 @@ CFLAGS += $(EXTRA_CFLAGS) $(INCLUDEDIR) -D_FILE_OFFSET_BITS=64 \
 PLATDEF := $(shell echo | $(CC) $(CPPFLAGS) $(CFLAGS) -E - -dM)
 ifneq ($(findstring __QNX__,$(PLATDEF)),)
 	LIBS += -lm -lnbutil -lsocket
-else ifneq ($(findstring __ANDROID__,$(PLATDEF)),)
+else
+ifneq ($(findstring __ANDROID__,$(PLATDEF)),)
 	LIBS += -lm
-else ifeq ($(findstring __HAIKU__,$(PLATDEF)),)
-	# Not Haiku
+else
+ifeq ($(findstring __HAIKU__,$(PLATDEF)),) # Not Haiku
 	LIBS += -lm -lpthread
+endif
+endif
 endif
 
 ifeq ($(GZIP_SUPPORT),1)
