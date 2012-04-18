@@ -70,7 +70,6 @@ unsigned int total_blocks = 0, total_files = 0, total_inodes = 0;
 unsigned int cur_blocks = 0;
 int inode_number = 1;
 int no_xattrs = XATTR_DEF;
-int keep_open = TRUE;
 
 int lookup_type[] = {
 	0,
@@ -815,11 +814,6 @@ int write_file(struct inode *inode, char *pathname)
 	file = malloc(sizeof(struct squashfs_file));
 	if(file == NULL)
 		EXIT_UNSQUASH("write_file: unable to malloc file\n");
-
-	if (!keep_open) {
-		close(file_fd);
-		file_fd = -1;
-	}
 
 	/*
 	 * the writer thread is queued a squashfs_file structure describing the
@@ -1671,12 +1665,6 @@ void *writer(void *arg)
 		TRACE("writer: regular file, blocks %d\n", file->blocks);
 
 		file_fd = file->fd;
-		if (file_fd == -1) {
-			file_fd = open(file->pathname, O_WRONLY);
-			if (file_fd == -1)
-				ERROR("writer: failed to open file %s, because %s\n",
-					file->pathname, strerror(errno));
-		}
 
 		for(i = 0; i < file->blocks; i++, cur_blocks ++) {
 			struct file_entry *block = queue_get(to_writer);
@@ -2075,9 +2063,6 @@ int main(int argc, char *argv[])
 		} else if(strcmp(argv[i], "-force") == 0 ||
 				strcmp(argv[i], "-f") == 0)
 			force = TRUE;
-		else if(strcmp(argv[i], "-reopen") == 0 ||
-				strcmp(argv[i], "-reo") == 0)
-			keep_open = FALSE;
 		else if(strcmp(argv[i], "-stat") == 0 ||
 				strcmp(argv[i], "-s") == 0)
 			stat_sys = TRUE;
@@ -2141,7 +2126,6 @@ options:
 			ERROR("\t\t\t\tls -l output), but don't unsquash\n");
 			ERROR("\t-f[orce]\t\tif file already exists then "
 				"overwrite\n");
-			ERROR("\t-reo[pen]\t\tuse fewer open files\n");
 			ERROR("\t-s[tat]\t\t\tdisplay filesystem superblock "
 				"information\n");
 			ERROR("\t-e[f] <extract file>\tlist of directories or "
