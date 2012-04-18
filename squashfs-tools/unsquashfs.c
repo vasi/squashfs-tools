@@ -1811,6 +1811,29 @@ void *progress_thread(void *arg)
 	}
 }
 
+#include <sys/time.h>
+#include <sys/resource.h>
+int open_file_limit(void)
+{
+	const rlim_t DEFAULT_FILES = 20, MAX_FILES = 1000;
+
+	struct rlimit limits;
+	rlim_t lim;
+	if (getrlimit(RLIMIT_NOFILE, &limits) != 0)
+		return DEFAULT_FILES;
+
+	lim = limits.rlim_cur;
+	if (lim == RLIM_INFINITY)
+		return MAX_FILES;
+
+	/* min: DEFAULT_FILES; max: MAX_FILES or lim - DEFAULT_FILES */
+	if (lim < 2 * DEFAULT_FILES)
+		return DEFAULT_FILES;
+	lim -= DEFAULT_FILES;
+	if (lim > MAX_FILES)
+		return MAX_FILES;
+	return lim;
+}
 
 void initialise_threads(int fragment_buffer_size, int data_buffer_size)
 {
@@ -1856,7 +1879,7 @@ void initialise_threads(int fragment_buffer_size, int data_buffer_size)
 
 	to_reader = queue_init(all_buffers_size);
 	to_deflate = queue_init(all_buffers_size);
-	to_writer = queue_init(1000);
+	to_writer = queue_init(open_file_limit());
 	from_writer = queue_init(1);
 	fragment_cache = cache_init(block_size, fragment_buffer_size);
 	data_cache = cache_init(block_size, data_buffer_size);
