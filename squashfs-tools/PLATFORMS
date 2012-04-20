@@ -1,0 +1,32 @@
+Platform support for squashfs tools
+===================================
+
+Common issues
+-------------
+GMAKE: Build with `gmake', installing it if necessary
+GCC: Build with CC=gcc, installing it if necessary
+NOXATTR: Build with XATTR_SUPPORT=0, no Linux-compatible extended attribute
+	support available.
+NOCPU: Can't auto-detect the number of CPUs available.
+
+Platforms
+---------
+Linux: Everything works
+Mac OS X: Everything works
+FreeBSD: GMAKE, NOXATTR
+NetBSD: GMAKE
+OpenBSD: GMAKE, NOXATTR
+DragonflyBSD: GMAKE, NOXATTR
+OpenIndiana: GCC, NOXATTR, install `header-math' package
+Solaris: GMAKE, GCC, NOXATTR
+QNX: GCC, NOXATTR, NOCPU
+Hurd: NOXATTR, NOCPU
+Haiku: NOXATTR, NOCPU
+Windows/cygwin: Install make and gcc
+
+Android: NOXATTR
+	- Cross-compile using appropriate flags
+
+Minix: CC, NOXATTR, NOCPU
+	- No preemptive threads, build against pthread by settin
+		CPPFLAGS=-I/usr/pkg/include LDFLAGS=-L/usr/pkg/lib
