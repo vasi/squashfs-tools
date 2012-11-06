@@ -150,11 +150,11 @@ ifeq ($(XZ_SUPPORT),1)
 CFLAGS += -DXZ_SUPPORT
 ifdef XZ_DIR
 INCLUDEDIR += -I$(XZ_DIR)/include
-LZO_LIBDIR = -L$(XZ_DIR)/lib
+XZ_LIBDIR = -L$(XZ_DIR)/lib
 endif
 MKSQUASHFS_OBJS += xz_wrapper.o
 UNSQUASHFS_OBJS += xz_wrapper.o
-LIBS += -llzma
+LIBS += $(XZ_LIBDIR) -llzma
 COMPRESSORS += xz
 endif
 
